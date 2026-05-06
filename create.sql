@@ -22,7 +22,7 @@ CREATE TABLE Employees (
     F_name      VARCHAR(50)     NOT NULL,
     MI          CHAR(1),
     L_name      VARCHAR(50)     NOT NULL,
-    Hire_date   DATE            NOT NULL CHECK (Hire_date <= CURDATE()),
+    Hire_date   DATE            NOT NULL,
     Role        VARCHAR(50)     NOT NULL,
     Salary      DECIMAL(10,2)   NOT NULL CHECK (Salary > 0),
     Dept_ID     INT             NOT NULL,
@@ -54,8 +54,8 @@ CREATE TABLE Artist (
     MI          CHAR(1),
     L_name      VARCHAR(50)     NOT NULL,
     Nationality VARCHAR(50)     NOT NULL,
-    Birth_year  YEAR            CHECK (Birth_year <= YEAR(CURDATE())),
-    Death_year  YEAR            CHECK (Death_year > Birth_year),
+    Birth_year  SMALLINT,
+    Death_year  SMALLINT,
     Bio         TEXT            NOT NULL,
     PRIMARY KEY (Artist_ID)
 );
@@ -65,7 +65,7 @@ CREATE TABLE Artwork (
     Piece_ID    INT             NOT NULL AUTO_INCREMENT,
     Title       VARCHAR(200)    NOT NULL,
     Medium      VARCHAR(100)    NOT NULL,
-    Year        YEAR            CHECK (Year <= YEAR(CURDATE())),
+    Year        SMALLINT,
     Artist_ID   INT             NOT NULL,
     Gallery_ID  INT,
     PRIMARY KEY (Piece_ID),
@@ -119,7 +119,7 @@ CREATE TABLE Membership (
     Start_date  DATE            NOT NULL,
     End_date    DATE,
     PRIMARY KEY (Member_ID, Email),
-    CONSTRAINT fk_membership_guest FOREIGN KEY (Email) REFERENCES Guests(Email),
-    CONSTRAINT fk_membership_tier  FOREIGN KEY (Tier)  REFERENCES MembershipTier(Tier),
+    CONSTRAINT fk_membership_guest  FOREIGN KEY (Email) REFERENCES Guests(Email),
+    CONSTRAINT fk_membership_tier   FOREIGN KEY (Tier)  REFERENCES MembershipTier(Tier),
     CONSTRAINT chk_membership_dates CHECK (End_date >= Start_date)
 );
